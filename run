@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+mkdir -p "bin/$(dirname $1)"
+g++ $1.cpp -O3 -o bin/$1 -lfmt && bin/$1
