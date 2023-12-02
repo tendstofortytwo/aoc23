@@ -1,13 +1,13 @@
 #include <fmt/core.h>
 #include <string>
 #include <iostream>
+#include <string_view>
 
 int main() {
-	std::string line;
+	std::string lineStr;
 
-	int sum = 0;
-
-	while(std::getline(std::cin, line)) {
+	while(std::getline(std::cin, lineStr)) {
+		std::string_view line(lineStr);
 		fmt::println("{}", line);
 	}
 }
