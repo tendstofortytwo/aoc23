@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+mkdir -p $1
+cp starter.cpp $1/part1.cpp
+touch $1/part2.cpp
