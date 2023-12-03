@@ -55,14 +55,14 @@ int main() {
 			if(minY < 0) minY = 0;
 			long int maxY = line + 1;
 			if(maxY >= numbers.size()) maxY = numbers.size() - 1;
-            long int ratios[2];
-            long int found = 0;
+			long int ratios[2];
+			long int found = 0;
 
 			for(long int i = minY; i <= maxY; ++i) {
 				for(const auto& [startPos, endPos, val] : numbers[i]) {
-                    long int minX = startPos - 1;
-                    long int maxX = endPos + 1;
-                    if(minX <= symPos && symPos <= maxX) {
+					long int minX = startPos - 1;
+					long int maxX = endPos + 1;
+					if(minX <= symPos && symPos <= maxX) {
 						ratios[found++] = val;
 						if(found > 2) break;
 					}
