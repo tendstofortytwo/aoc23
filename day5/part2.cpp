@@ -6,8 +6,7 @@
 #include <charconv>
 #include <map>
 #include <vector>
-
-using std::operator""sv;
+#include <algorithm>
 
 struct Mapping { long int src; long int dst; long int sz; };
 Mapping readMapping(std::string_view line) {
@@ -20,12 +19,16 @@ Mapping readMapping(std::string_view line) {
 	line = line.substr(line.find(' ') + 1);
 	return m;
 }
+auto cmp = [](const Mapping& a, const Mapping& b) { return a.src < b.src; };
 long int map(const std::vector<Mapping>& m, long int val) {
-    for(const auto& map : m) {
-        if(map.src <= val && val < map.src + map.sz) {
-            return map.dst + (val - map.src);
-        }
-    }
+	Mapping tmp = {val,val,val};
+	auto next = std::upper_bound(m.begin(), m.end(), tmp, cmp);
+	if(next == m.begin()) return val;
+	--next;
+	auto& map = *next;
+	if(map.src <= val && val < map.src + map.sz) {
+		return map.dst + (val - map.src);
+	}
 	return val;
 }
 struct Seed { long int start; long int sz; };
@@ -58,6 +61,7 @@ int main() {
 		Mapping m = readMapping(lines[idx++]);
 		seedToSoil.push_back(m);
 	}
+	std::sort(seedToSoil.begin(), seedToSoil.end(), cmp);
 
 	idx += 2;
 	std::vector<Mapping> soilToFertilizer;
@@ -65,6 +69,7 @@ int main() {
 		Mapping m = readMapping(lines[idx++]);
 		soilToFertilizer.push_back(m);
 	}
+	std::sort(soilToFertilizer.begin(), soilToFertilizer.end(), cmp);
 
 	idx += 2;
 	std::vector<Mapping> fertilizerToWater;
@@ -72,6 +77,7 @@ int main() {
 		Mapping m = readMapping(lines[idx++]);
 		fertilizerToWater.push_back(m);
 	}
+	std::sort(fertilizerToWater.begin(), fertilizerToWater.end(), cmp);
 
 	idx += 2;
 	std::vector<Mapping> waterToLight;
@@ -79,6 +85,7 @@ int main() {
 		Mapping m = readMapping(lines[idx++]);
 		waterToLight.push_back(m);
 	}
+	std::sort(waterToLight.begin(), waterToLight.end(), cmp);
 
 	idx += 2;
 	std::vector<Mapping> lightToTemperature;
@@ -86,6 +93,7 @@ int main() {
 		Mapping m = readMapping(lines[idx++]);
 		lightToTemperature.push_back(m);
 	}
+	std::sort(lightToTemperature.begin(), lightToTemperature.end(), cmp);
 
 	idx += 2;
 	std::vector<Mapping> temperatureToHumidity;
@@ -93,6 +101,7 @@ int main() {
 		Mapping m = readMapping(lines[idx++]);
 		temperatureToHumidity.push_back(m);
 	}
+	std::sort(temperatureToHumidity.begin(), temperatureToHumidity.end(), cmp);
 
 	idx += 2;
 	std::vector<Mapping> humidityToLocation;
@@ -100,6 +109,7 @@ int main() {
 		Mapping m = readMapping(lines[idx++]);
 		humidityToLocation.push_back(m);
 	}
+	std::sort(humidityToLocation.begin(), humidityToLocation.end(), cmp);
 
 	long int min = LONG_MAX;
 	fmt::println("{} seed ranges", seeds.size());
