@@ -1,9 +1,5 @@
 #include <fmt/core.h>
-#include <string>
-#include <iostream>
-#include <string_view>
-#include <ranges>
-#include <charconv>
+#include <bits/stdc++.h>
 
 using std::operator""sv;
 
